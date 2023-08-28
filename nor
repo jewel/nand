@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Check for the correct number of arguments
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <0 or 1> <0 or 1>"
+    exit 1
+fi
+
+# Extract the arguments
+A="$1"
+B="$2"
+
+# Validate the arguments
+if [ "$A" != "0" -a "$A" != "1" ] || [ "$B" != "0" -a "$B" != "1" ]; then
+    echo "Error: Arguments must be either 0 or 1."
+    exit 1
+fi
+
+# Compute the NOR operation using only NAND
+
+# Get the negation of A and B using NAND
+notA=$(nand $A $A)
+notB=$(nand $B $B)
+
+# Compute NOR by NAND-ing the negations of A and B
+result=$(nand $notA $notB)
+
+echo $result
+

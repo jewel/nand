@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Check for the correct number of arguments
+if [ "$#" -ne 4 ]; then
+    echo "Usage: $0 <A2> <A1> <B2> <B1>"
+    exit 1
+fi
+
+A2="$1"
+A1="$2"
+B2="$3"
+B1="$4"
+
+# First sum bit and carry
+S1=$(xor $A1 $B1)
+C1=$(and $A1 $B1)
+
+# Second sum bit
+temp=$(xor $A2 $B2)
+S2=$(xor $temp $C1)
+
+# Compute final output
+echo "$S2 $S1"
+
