@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Begin the 8-bit adder script
+
+# Check for the correct number of arguments (16 arguments: 8 bits for A and 8 bits for B)
+if [ "$#" -ne 16 ]; then
+    echo "Usage: $0 <A8> <A7> ... <A1> <B8> <B7> ... <B1>"
+    exit 1
+fi
+
+# Split the inputs
+A=($1 $2 $3 $4 $5 $6 $7 $8)
+B=($9 ${10} ${11} ${12} ${13} ${14} ${15} ${16})
+
+# Initialize the carry to 0
+C=0
+
+# Start adding bit by bit, from least significant bit to the most significant
+for i in {7..0}
+do
+    # Feed the bit of A, bit of B, and the carry from the previous operation into the full_adder
+    result=($(full-adder ${A[$i]} ${B[$i]} $C))
+    sum[$i]=${result[0]}
+    C=${result[1]}
+done
+
+# Print the result
+echo "${sum[@]}"
+

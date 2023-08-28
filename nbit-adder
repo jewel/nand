@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# N-bit adder script
+
+# Check for the minimum number of arguments (N + 2N bits: 1 for N and N bits each for A and B)
+if [ "$#" -lt 3 ]; then
+    echo "Usage: $0 <N> <A_N> ... <A_1> <B_N> ... <B_1>"
+    exit 1
+fi
+
+N=$1
+
+if [ "$#" -ne $((2*N + 1)) ]; then
+    echo "Error: Missing bits for inputs A and B based on the provided value of N."
+    exit 1
+fi
+
+# Split the inputs into A and B arrays
+A=("${@:2:N}")
+B=("${@:2+N:N}")
+
+# Initialize the carry to 0
+C=0
+
+# Start adding bit by bit, from least significant bit to the most significant
+for (( i=N-1; i>=0; i-- ))
+do
+    # Feed the bit of A, bit of B, and the carry from the previous operation into the full_adder
+    result=($(full-adder ${A[$i]} ${B[$i]} $C))
+    sum[$i]=${result[0]}
+    C=${result[1]}
+done
+
+# Print the result
+echo "${sum[@]}"
+

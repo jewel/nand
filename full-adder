@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 A B Cin (carry)"
+    exit 1
+fi
+
+# Full 1-bit adder
+# This takes 3 inputs: A, B, and Cin (carry-in)
+# Outputs two numbers: sum and carry-out
+A=$1
+B=$2
+Cin=$3
+
+sum=$(xor $(xor $A $B) $Cin)
+carry=$(or $(and $(xor $A $B) $Cin) $(and $A $B))
+
+echo $sum $carry
